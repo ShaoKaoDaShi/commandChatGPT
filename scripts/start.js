@@ -1,33 +1,47 @@
-const webpack = require('webpack');
-const config = require('../config/webpack.config');
+const webpack = require("webpack");
+const config = require("../config/webpack.config");
+const formatWebpackMessages = require("react-dev-utils/formatWebpackMessages");
+const chalk = require("react-dev-utils/chalk");
+const Mode = "development";
+start();
 
-start()
+function start() {
+  config.mode = Mode;
+  const compiler = webpack(config);
 
-function start(){
-    const compiler = webpack(config);
-    // compiler.run((err, stats) => {
-    //     // console.log(err, stats)
-    //     // console.log(err)
-    // })
-
-    const watching = compiler.watch(
-        {
-          // 示例
-          aggregateTimeout: 300,
-          ignored:['/dist']
-        },
-        (err, stats) => {
-            console.log('xixi')
-            compiler.run((err, stats) => {
-                // console.log(err, stats)
-                // console.log(err)
-            })
-        //   这里打印 watch/build 结果...
-        //   console.log(stats);
-        }
+  // watch 集成 run 方法
+  const watching = compiler.watch(
+    {
+      // 示例
+      aggregateTimeout: 300,
+      ignored: ["/dist"],
+    },
+    (err, stats) => {
+      let messages = formatWebpackMessages(
+        stats.toJson({ all: false, warnings: true, errors: true })
       );
-
-      setTimeout(()=>{
-        watching.close((err)=>{})
-      },1000*60)
+      if (messages.errors.length) {
+        console.log(
+          messages.errors.join("\n\n").split("Error").join(chalk.red("Error"))
+        );
+        return new Error(messages.errors.join("\n\n"));
+      }
+      if (messages.warnings.length) {
+        // Ignore sourcemap warnings in CI builds. See #8227 for more info.
+        const filteredWarnings = messages.warnings.filter(
+          (w) => !/Failed to parse source map/.test(w)
+        );
+        if (filteredWarnings.length) {
+          console.log(
+            chalk.yellow(
+              "\nTreating warnings as errors because process.env.CI = true.\n" +
+                "Most CI servers set it automatically.\n"
+            )
+          );
+          console.log(filteredWarnings.join("\n\n"));
+          return new Error(filteredWarnings.join("\n\n"));
+        }
+      }
+    }
+  );
 }

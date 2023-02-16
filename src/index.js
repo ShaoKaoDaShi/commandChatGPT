@@ -52,6 +52,7 @@ async function chatWithGPT() {
   while (true) {
     var userInput = await getUserInput();
     var question = userInput.question;
+    console.log("🚀 ~ file: index.js:55 ~ chatWithGPT ~ question  ", question)
     if (question === "exit()") return;
 
     const answer = await getAnswerFromChatGPT(question, lastRes);
