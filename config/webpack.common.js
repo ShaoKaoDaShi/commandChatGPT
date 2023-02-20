@@ -6,7 +6,7 @@ let progressPlugin = new WebpackBar({
   profile: false, // 默认false，启用探查器。
 });
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/wechat/index.js",
   mode: "development",
   output: {
     filename: "[contenthash].main.js",

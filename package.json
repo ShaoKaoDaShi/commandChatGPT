@@ -6,12 +6,24 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --config ./config/webpack.dev.js"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1317.0",
+    "bufferutil": "^4.0.7",
     "chalk": "^5.2.0",
-    "chatgpt": "^4.4.0",
-    "inquirer": "^9.1.4"
+    "chatgpt": "^4.4.1",
+    "esdk-obs-nodejs": "^3.21.6",
+    "etcd3": "^1.1.0",
+    "inquirer": "^9.1.4",
+    "qrcode-terminal": "^0.12.0",
+    "raven": "^2.6.4",
+    "remark": "^14.0.2",
+    "strip-markdown": "^5.0.0",
+    "utf-8-validate": "^5.0.10",
+    "wechaty": "^1.20.2",
+    "wechaty-puppet-wechat": "^1.18.4"
   },
   "devDependencies": {
     "react-dev-utils": "^12.0.1",
