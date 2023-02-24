@@ -6,20 +6,18 @@ let progressPlugin = new WebpackBar({
   profile: false, // 默认false，启用探查器。
 });
 module.exports = {
-  entry: "./src/wechat/index.js",
   mode: "development",
   output: {
-    filename: "[contenthash].main.js",
+    filename: "main.js",
     path: path.resolve(__dirname, "../dist"),
     clean: true,
   },
   target: "node",
+  context: __dirname,
   node: {
     global: true,
-    __filename: true,
-    __dirname: true,
+    __filename: false,
+    __dirname: false,
   },
-  plugins: [
-    progressPlugin,
-  ],
+  plugins: [progressPlugin],
 };

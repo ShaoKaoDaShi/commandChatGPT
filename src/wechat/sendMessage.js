@@ -2,8 +2,9 @@
 // import { getOpenAiReply as getReply } from '../openai/index.js'
 import { botName, roomWhiteList, aliasWhiteList } from '../config.js'
 import {init, initReply} from './../chatgpt/index.js'
-const api = init()
-const getReply = initReply(api)
+import Store from '../store/index.js'
+const store = new Store()
+
 /**
  * 默认消息发送
  * @param msg
@@ -24,20 +25,40 @@ export async function defaultMessage(msg, bot) {
   const isRoom = roomWhiteList.includes(roomName) // 是否在群聊白名单内并且艾特了机器人
   const isAlias = aliasWhiteList.includes(remarkName) || aliasWhiteList.includes(name) // 发消息的人是否在联系人白名单内
   const isBotSelf = botName === remarkName || botName === name // 是否是机器人自己
+
   // TODO 你们可以根据自己的需求修改这里的逻辑
   if (isText && !isBotSelf) {
     try {
       // 区分群聊和私聊
       if (isRoom && room) {
+        const getReply = getValue(room,roomName)
         await room.say(await getReply(content.replace(`${botName}`, '')))
         return
       }
       // 私人聊天，白名单内的直接发送
       if (isAlias && !room) {
+        const getReply = getValue(room,name+remarkName)
         await contact.say(await getReply(content))
       }
     } catch (e) {
       console.error(e)
     }
   }
+}
+
+function getValue(isRoom, key) {
+  const prefix = isRoom? 'room' : 'alias'
+  const realKey = prefix+key
+  if(typeof store.getState(realKey) === 'undefined') {
+    store.setState(realKey, createReply())
+  }
+
+  return store.getState(realKey)
+}
+
+function createReply(){
+
+  const api = init()
+  const getReply = initReply(api)
+  return getReply
 }
