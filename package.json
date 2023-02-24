@@ -8,7 +8,9 @@
   },
   "type": "module",
   "nodemonConfig": {
-    "ignore": ["WechatEveryDay.memory-card.json"],
+    "ignore": [
+      "WechatEveryDay.memory-card.json"
+    ],
     "delay": 2500
   },
   "author": "",
@@ -17,7 +19,7 @@
     "aws-sdk": "^2.1317.0",
     "bufferutil": "^4.0.7",
     "chalk": "^5.2.0",
-    "chatgpt": "^4.4.1",
+    "chatgpt": "^4.7.2",
     "esdk-obs-nodejs": "^3.21.6",
     "etcd3": "^1.1.0",
     "inquirer": "^9.1.4",
